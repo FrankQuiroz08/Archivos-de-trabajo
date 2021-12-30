@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Derek Corcoran, and Nicholas Watanabe" />
+
+<meta name="date" content="2020-11-09" />
+
+<title>Starting to use the Spatialball2 package</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Derek Corcoran</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Cursos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Cursos</li>
+    <li>
+      <a href="Libro/_book/index.html">Curso de R</a>
+    </li>
+    <li>
+      <a href="CursoMulti/_book/index.html">Curso modelos multivariados</a>
+    </li>
+    <li>
+      <a href="AyduantiaStats/_book/index.html">BIO249c</a>
+    </li>
+    <li>
+      <a href="CursoProgramacion/_book/index.html">Curso de Programación</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tareas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Tarea_2.html">Tarea interactiva 1</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DondeVivir.html">Donde vivir</a>
+</li>
+<li>
+  <a href="Polen.html">Alergia en Chile</a>
+</li>
+<li>
+  <a href="Earthquake.html">Earthquakes in Chile</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    RPackages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">RPackages</li>
+    <li>
+      <a href="SpatialBall.html">SpatialBall</a>
+    </li>
+    <li>
+      <a href="Starting.html">SpatialBall2</a>
+    </li>
+    <li>
+      <a href="VignetteNetworkExt.html">NetworkExtinction</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Starting to use the Spatialball2 package</h1>
+<h4 class="author">Derek Corcoran, and Nicholas Watanabe</h4>
+<h4 class="date">2020-11-09</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#data-scraping"><span class="toc-section-number">0.1</span> Data scraping</a></li>
+<li><a href="#data-visualization"><span class="toc-section-number">0.2</span> Data visualization</a><ul>
+<li><a href="#player-level-visualization"><span class="toc-section-number">0.2.1</span> Player level visualization</a></li>
+<li><a href="#team-level-visualization"><span class="toc-section-number">0.2.2</span> Team level visualization</a></li>
+<li><a href="#league-level-visualization"><span class="toc-section-number">0.2.3</span> League level visualization</a></li>
+</ul></li>
+<li><a href="#data-analysis"><span class="toc-section-number">0.3</span> Data analysis</a><ul>
+<li><a href="#spread-prediction"><span class="toc-section-number">0.3.1</span> Spread prediction</a></li>
+<li><a href="#spatial-rating"><span class="toc-section-number">0.3.2</span> Spatial Rating</a></li>
+</ul></li>
+<li><a href="#upcoming-functions"><span class="toc-section-number">0.4</span> Upcoming functions</a></li>
+</ul>
+</div>
+
+<p>#Introduction</p>
+<p>The <strong>SpatialBall2</strong> package was developed to analyze and visualize spatial data in the NBA. We can separate the Spatialball functions into three groups:</p>
+<ul>
+<li>Data scraping</li>
+<li>Data visualization</li>
+<li>Data analysis</li>
+</ul>
+<pre class="r"><code>library(SpatialBall2)</code></pre>
+<div id="data-scraping" class="section level2">
+<h2><span class="header-section-number">0.1</span> Data scraping</h2>
+<p>The <em>Seasonscrape</em> function, downloads data from the NBA.stats.com site the information needed for all the visualizations and analyses made in this package. You can request different seasons, and limit it to a range of dates, select if you want to analyse Regular season, playoffs, preseason, etc.</p>
+<p>As an example on how to scrape data from the 2017-18 for a given date is shown bellow.</p>
+<pre class="r"><code>SeasonData2018 &lt;- Seasonscrape(season = &quot;2017-18&quot;, Start = &quot;12/05/2017&quot;, End = &quot;12/07/2017&quot;)</code></pre>
+<p>The only parameter that is mandatory for this function is season. If you only fill that parameter, you will get all the data from the regular season of the year you requested.</p>
+</div>
+<div id="data-visualization" class="section level2">
+<h2><span class="header-section-number">0.2</span> Data visualization</h2>
+<p>We have three levels of data visualization with graphs at the player, team, and league level. We will go into detail in each of those categories. First for players and all other levels of visualization we have shot charts. In our shot charts (see Fig. 1 as an example) the color scheme will be a scale of the points per shot or percentage depending on the options you choose. The size of the hexagon in shot charts represents the frequency of the shots taken, by the league, team or player, with bigger hexagons meaning a higher frequency of shots. Now we will go in detail into each of the visualizations available in our package.</p>
+<div id="player-level-visualization" class="section level3">
+<h3><span class="header-section-number">0.2.1</span> Player level visualization</h3>
+<div id="player-shot-charts" class="section level4">
+<h4><span class="header-section-number">0.2.1.1</span> Player shot charts</h4>
+<p>For any given player that played in the league on a given season, you can build shot charts. The main function to do that is <em>ShotSeasonGraphPlayer</em>, in its most basic configuration, you only need to use the parameters <em>Seasondata</em> and the name of the player, as seen in figure 1.</p>
+<pre class="r"><code>data(&quot;season2017&quot;)
+ShotSeasonGraphPlayer(season2017, player = &quot;Stephen Curry&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-3-1.png" alt="Figure 1. Shot chart of Stephen Curry" width="576" />
+<p class="caption">
+Figure 1. Shot chart of Stephen Curry
+</p>
+</div>
+<p>If you change the type parameter from “PPS” (Points Per Shot), which is the default, to “PCT” (Percentage of shots made), the color scale of the hexagon will change to reflect that, as seen in figure 2.</p>
+<pre class="r"><code>ShotSeasonGraphPlayer(season2017, player = &quot;Stephen Curry&quot;, type = &quot;PCT&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-4-1.png" alt="Figure 2. Shot chart of Stephen Curry showing the percentage of shots made" width="576" />
+<p class="caption">
+Figure 2. Shot chart of Stephen Curry showing the percentage of shots made
+</p>
+</div>
+</div>
+<div id="player-point-shot-charts" class="section level4">
+<h4><span class="header-section-number">0.2.1.2</span> Player point shot charts</h4>
+<p>When it’s early in the season, or a player does not shot to much, making a frequency based shot chart might not be the best visualization tool. For that, we created the <em>PointShotSeasonGraphPlayer</em>. This function creates a shot chart for a player on a given season plotting a point for each taken shot separating by colors made and misses, Also, you can add a kernel of the frequency of usage of areas. For example here is the “traditional” shot chart of Kyle Singler (Figure 3).</p>
+<pre class="r"><code>data(&quot;season2017&quot;)
+ShotSeasonGraphPlayer(season2017, player = &quot;Kyle Singler&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-5-1.png" alt="Figure 3. Shot chart of Kyle Singler" width="576" />
+<p class="caption">
+Figure 3. Shot chart of Kyle Singler
+</p>
+</div>
+<p>He only took 83 shots during the 2016-17 season, in that case, it might be better to plot every shot and a kernel of the most active areas for that player (Figure 4)</p>
+<pre class="r"><code>PointShotSeasonGraphPlayer(season2017, player = &quot;Kyle Singler&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-6-1.png" alt="Figure 4. Shot chart of Kyle Singler, point and kernel" width="576" />
+<p class="caption">
+Figure 4. Shot chart of Kyle Singler, point and kernel
+</p>
+</div>
+<p>We can show only the made shots as shown in figure 5, and/or remove the kernel as shown in figure 6.</p>
+<pre class="r"><code>PointShotSeasonGraphPlayer(season2017, player = &quot;Kyle Singler&quot;, Type = &quot;Made&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-7-1.png" alt="Figure 5. Shot chart of Kyle Singler, point and kernel, only made shots" width="576" />
+<p class="caption">
+Figure 5. Shot chart of Kyle Singler, point and kernel, only made shots
+</p>
+</div>
+<pre class="r"><code>PointShotSeasonGraphPlayer(season2017, player = &quot;Kyle Singler&quot;, Type = &quot;Made&quot;, kernel = FALSE)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-8-1.png" alt="Figure 6. Shot chart of Kyle Singler, points only, only made shots" width="576" />
+<p class="caption">
+Figure 6. Shot chart of Kyle Singler, points only, only made shots
+</p>
+</div>
+</div>
+</div>
+<div id="team-level-visualization" class="section level3">
+<h3><span class="header-section-number">0.2.2</span> Team level visualization</h3>
+<div id="offensive-shot-charts" class="section level4">
+<h4><span class="header-section-number">0.2.2.1</span> Offensive shot charts</h4>
+<p>This shot charts are made from the shots that the selected team has taken. The function to make team offensive shotcharts is <em>OffShotSeasonGraphTeam</em>, where in the most basic option for this function, you only have to provide the <em>Seasondata</em> and the <em>team</em> parameters. As an example of these, lets plot the offensive shot chart of the Golden State Warriors from the 2016-17 season with the data included in the package.</p>
+<pre class="r"><code>OffShotSeasonGraphTeam(season2017, team = &quot;GSW&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-9-1.png" alt="Figure 7. Offensive Shot chart of the Golden State Warriors" width="576" />
+<p class="caption">
+Figure 7. Offensive Shot chart of the Golden State Warriors
+</p>
+</div>
+<p>A we saw, the default graph has a color legend that varies according to the points per shot (PPS) of the team. This can be changed by changing the type parameter from <code>&quot;PPS&quot;</code> to <code>&quot;PCT&quot;</code> as follows.</p>
+<pre class="r"><code>data(&quot;season2017&quot;)
+OffShotSeasonGraphTeam(season2017, team = &quot;GSW&quot;, type = &quot;PCT&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-10-1.png" alt="Figure 8. Offensive Shot chart of the Golden State Warriors, percentage of shots made" width="576" />
+<p class="caption">
+Figure 8. Offensive Shot chart of the Golden State Warriors, percentage of shots made
+</p>
+</div>
+</div>
+<div id="defensive-shot-charts" class="section level4">
+<h4><span class="header-section-number">0.2.2.2</span> Defensive shot charts</h4>
+<p>Similar to the offensive shot charts, here we visualize the Points per shot or percentage allowed by the team we choose to graph, using the function <em>DefShotSeasonGraphTeam</em>. Similar to the functions <em>OffShotSeasonGraphTeam</em> and <em>ShotSeasonGraphPlayer</em>, this function allows the user to choose to visualize the shot chart with a Points per Shot or Percentage scale as seen in figure 8.</p>
+<pre class="r"><code>data(&quot;season2017&quot;)
+DefShotSeasonGraphTeam(season2017, team = &quot;Sas&quot;, type = &quot;PCT&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-11-1.png" alt="Figure 9. Offensive Shot chart of the Golden State Warriors, percentage of shots made" width="576" />
+<p class="caption">
+Figure 9. Offensive Shot chart of the Golden State Warriors, percentage of shots made
+</p>
+</div>
+</div>
+<div id="comparative-shot-charts" class="section level4">
+<h4><span class="header-section-number">0.2.2.3</span> Comparative shot charts</h4>
+<p>The function to visually compare two teams it’s called <em>ShotComparisonGraph</em>, and it uses our comparative shot charts, in this example we have Miami against Houston. In the top row we see the defensive shot chart of the Heat, the Offensive Shot Chart of the rockets, and the net Shot Chart of the expected points per Shot over average when Rockets offense faces the Heat Defense. This plot takes into account both the shot frequency attempted by the offense and defense and assumes that the shot frequency for each area in the court will be an in-between frequency. At points where the hexagons are blue, the defense is allowing fewer points than average and the offense is scoring fewer points than average, and the inverse is true for red hexagons. Conversely the bottom row shows what happens when the Heat attacks and the Rockets defend.</p>
+<pre class="r"><code>ShotComparisonGraph(HomeTeam = &quot;Hou&quot;, VisitorTeam = &quot;Mia&quot;, Seasondata = season2017)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-12-1.png" alt="Figure 10. Comparative shot chart of 2016-17 Miami Heat against Houston Rockets" width="960" />
+<p class="caption">
+Figure 10. Comparative shot chart of 2016-17 Miami Heat against Houston Rockets
+</p>
+</div>
+<p>We can focus on the areas where the offensive team is favored by adding to the code the <em>focus = “plus”</em> command, as follows, which will change only the last column of the graph.</p>
+<pre class="r"><code>ShotComparisonGraph(HomeTeam = &quot;Hou&quot;, VisitorTeam = &quot;Mia&quot;, Seasondata = season2017, focus = &quot;plus&quot;)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-13-1.png" alt="Figure 11. Comparative shot chart of 2016-17 Miami Heat against Houston Rockets, focusing in the areas where the attack has the advantage" width="960" />
+<p class="caption">
+Figure 11. Comparative shot chart of 2016-17 Miami Heat against Houston Rockets, focusing in the areas where the attack has the advantage
+</p>
+</div>
+</div>
+</div>
+<div id="league-level-visualization" class="section level3">
+<h3><span class="header-section-number">0.2.3</span> League level visualization</h3>
+<p>The <em>ShotSeasonGraph</em> function takes an NBA season object and makes a shot chart of all the shots takes through that regular season. You can choose to either plot the results based on Points per Shot or on Shooting Percentage, as in all previous functions. This function is exemplified in figure 12.</p>
+<pre class="r"><code>data(&quot;season2017&quot;)
+ShotSeasonGraph(season2017, quant = 0.4)</code></pre>
+<div class="figure">
+<img src="Starting_files/figure-html/unnamed-chunk-14-1.png" alt="Figure 12. Shot chart of the Whole 2017 Season" width="576" />
+<p class="caption">
+Figure 12. Shot chart of the Whole 2017 Season
+</p>
+</div>
+</div>
+</div>
+<div id="data-analysis" class="section level2">
+<h2><span class="header-section-number">0.3</span> Data analysis</h2>
+<p>###Offensive and defensive team stats</p>
+<p>The <em>TeamStats</em> function are the basis of the table shown in <a href="https://derek-corcoran-barrios.github.io/TeamStats.html">this link</a> which is updated daily. The only parameter needed for this function is the <em>Seasondata</em> parameter, which can be extracted from the <em>Seasonscrape</em> function. As shown in tables 1 (Offensive stats) and 2 (Defensive stats).</p>
+<pre class="r"><code>data(&quot;season2017&quot;)
+Stats2017 &lt;- TeamStats(Seasondata = season2017)</code></pre>
+<p>In the offensive shot stats we see the shooting percentage of 2 pointers and 3 pointers, also the percentage of shots taken that are 2 pointers and 3 pointers, the points per shots that a team makes. The shot-proportion, which is the amount of shots taken by a team for each shot taken by their opponents, and the adjusted points per shot, which is the points per shot adjusted by the shot-proportion.</p>
+<table>
+<caption>Offensive team stats</caption>
+<thead>
+<tr class="header">
+<th align="left">TEAM_NAME</th>
+<th align="right">ShotPct2Pts</th>
+<th align="right">ShotPct3Pts</th>
+<th align="right">PercentageOf2s</th>
+<th align="right">PercentageOf3s</th>
+<th align="right">PropShot</th>
+<th align="right">PPS</th>
+<th align="right">AdjPPS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">GSW</td>
+<td align="right">0.557</td>
+<td align="right">0.383</td>
+<td align="right">0.64</td>
+<td align="right">0.36</td>
+<td align="right">0.976</td>
+<td align="right">1.127</td>
+<td align="right">1.100</td>
+</tr>
+<tr class="even">
+<td align="left">Was</td>
+<td align="right">0.515</td>
+<td align="right">0.372</td>
+<td align="right">0.72</td>
+<td align="right">0.28</td>
+<td align="right">1.022</td>
+<td align="right">1.054</td>
+<td align="right">1.077</td>
+</tr>
+<tr class="odd">
+<td align="left">Hou</td>
+<td align="right">0.552</td>
+<td align="right">0.357</td>
+<td align="right">0.54</td>
+<td align="right">0.46</td>
+<td align="right">0.981</td>
+<td align="right">1.089</td>
+<td align="right">1.068</td>
+</tr>
+<tr class="even">
+<td align="left">Dal</td>
+<td align="right">0.489</td>
+<td align="right">0.355</td>
+<td align="right">0.63</td>
+<td align="right">0.37</td>
+<td align="right">1.043</td>
+<td align="right">1.010</td>
+<td align="right">1.053</td>
+</tr>
+<tr class="odd">
+<td align="left">Den</td>
+<td align="right">0.519</td>
+<td align="right">0.368</td>
+<td align="right">0.67</td>
+<td align="right">0.33</td>
+<td align="right">0.993</td>
+<td align="right">1.060</td>
+<td align="right">1.053</td>
+</tr>
+<tr class="even">
+<td align="left">Tor</td>
+<td align="right">0.505</td>
+<td align="right">0.364</td>
+<td align="right">0.71</td>
+<td align="right">0.29</td>
+<td align="right">1.018</td>
+<td align="right">1.034</td>
+<td align="right">1.053</td>
+</tr>
+<tr class="odd">
+<td align="left">Det</td>
+<td align="right">0.492</td>
+<td align="right">0.330</td>
+<td align="right">0.74</td>
+<td align="right">0.26</td>
+<td align="right">1.066</td>
+<td align="right">0.986</td>
+<td align="right">1.051</td>
+</tr>
+<tr class="even">
+<td align="left">Sas</td>
+<td align="right">0.500</td>
+<td align="right">0.391</td>
+<td align="right">0.72</td>
+<td align="right">0.28</td>
+<td align="right">1.003</td>
+<td align="right">1.048</td>
+<td align="right">1.051</td>
+</tr>
+<tr class="odd">
+<td align="left">Lac</td>
+<td align="right">0.525</td>
+<td align="right">0.376</td>
+<td align="right">0.67</td>
+<td align="right">0.33</td>
+<td align="right">0.973</td>
+<td align="right">1.076</td>
+<td align="right">1.047</td>
+</tr>
+<tr class="even">
+<td align="left">Cle</td>
+<td align="right">0.528</td>
+<td align="right">0.384</td>
+<td align="right">0.60</td>
+<td align="right">0.40</td>
+<td align="right">0.955</td>
+<td align="right">1.094</td>
+<td align="right">1.045</td>
+</tr>
+<tr class="odd">
+<td align="left">Mia</td>
+<td align="right">0.496</td>
+<td align="right">0.365</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">1.019</td>
+<td align="right">1.024</td>
+<td align="right">1.043</td>
+</tr>
+<tr class="even">
+<td align="left">Mem</td>
+<td align="right">0.473</td>
+<td align="right">0.353</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">1.060</td>
+<td align="right">0.982</td>
+<td align="right">1.041</td>
+</tr>
+<tr class="odd">
+<td align="left">Bos</td>
+<td align="right">0.515</td>
+<td align="right">0.359</td>
+<td align="right">0.61</td>
+<td align="right">0.39</td>
+<td align="right">0.992</td>
+<td align="right">1.048</td>
+<td align="right">1.040</td>
+</tr>
+<tr class="even">
+<td align="left">Mil</td>
+<td align="right">0.516</td>
+<td align="right">0.369</td>
+<td align="right">0.71</td>
+<td align="right">0.29</td>
+<td align="right">0.987</td>
+<td align="right">1.054</td>
+<td align="right">1.040</td>
+</tr>
+<tr class="odd">
+<td align="left">Por</td>
+<td align="right">0.499</td>
+<td align="right">0.374</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">0.999</td>
+<td align="right">1.038</td>
+<td align="right">1.037</td>
+</tr>
+<tr class="even">
+<td align="left">Min</td>
+<td align="right">0.507</td>
+<td align="right">0.349</td>
+<td align="right">0.75</td>
+<td align="right">0.25</td>
+<td align="right">1.014</td>
+<td align="right">1.022</td>
+<td align="right">1.036</td>
+</tr>
+<tr class="odd">
+<td align="left">Ind</td>
+<td align="right">0.498</td>
+<td align="right">0.373</td>
+<td align="right">0.73</td>
+<td align="right">0.27</td>
+<td align="right">1.003</td>
+<td align="right">1.029</td>
+<td align="right">1.032</td>
+</tr>
+<tr class="even">
+<td align="left">Okc</td>
+<td align="right">0.504</td>
+<td align="right">0.327</td>
+<td align="right">0.70</td>
+<td align="right">0.30</td>
+<td align="right">1.025</td>
+<td align="right">1.000</td>
+<td align="right">1.025</td>
+</tr>
+<tr class="odd">
+<td align="left">Uta</td>
+<td align="right">0.511</td>
+<td align="right">0.372</td>
+<td align="right">0.67</td>
+<td align="right">0.33</td>
+<td align="right">0.969</td>
+<td align="right">1.053</td>
+<td align="right">1.020</td>
+</tr>
+<tr class="even">
+<td align="left">Sac</td>
+<td align="right">0.496</td>
+<td align="right">0.375</td>
+<td align="right">0.71</td>
+<td align="right">0.29</td>
+<td align="right">0.987</td>
+<td align="right">1.031</td>
+<td align="right">1.018</td>
+</tr>
+<tr class="odd">
+<td align="left">Lal</td>
+<td align="right">0.493</td>
+<td align="right">0.346</td>
+<td align="right">0.71</td>
+<td align="right">0.29</td>
+<td align="right">1.016</td>
+<td align="right">1.001</td>
+<td align="right">1.017</td>
+</tr>
+<tr class="even">
+<td align="left">Pho</td>
+<td align="right">0.491</td>
+<td align="right">0.332</td>
+<td align="right">0.74</td>
+<td align="right">0.26</td>
+<td align="right">1.027</td>
+<td align="right">0.986</td>
+<td align="right">1.013</td>
+</tr>
+<tr class="odd">
+<td align="left">NY</td>
+<td align="right">0.485</td>
+<td align="right">0.348</td>
+<td align="right">0.72</td>
+<td align="right">0.28</td>
+<td align="right">1.013</td>
+<td align="right">0.991</td>
+<td align="right">1.004</td>
+</tr>
+<tr class="even">
+<td align="left">Phi</td>
+<td align="right">0.496</td>
+<td align="right">0.340</td>
+<td align="right">0.65</td>
+<td align="right">0.35</td>
+<td align="right">0.993</td>
+<td align="right">1.002</td>
+<td align="right">0.995</td>
+</tr>
+<tr class="odd">
+<td align="left">Cha</td>
+<td align="right">0.488</td>
+<td align="right">0.351</td>
+<td align="right">0.66</td>
+<td align="right">0.34</td>
+<td align="right">0.987</td>
+<td align="right">1.002</td>
+<td align="right">0.989</td>
+</tr>
+<tr class="even">
+<td align="left">ORL</td>
+<td align="right">0.488</td>
+<td align="right">0.328</td>
+<td align="right">0.70</td>
+<td align="right">0.30</td>
+<td align="right">1.009</td>
+<td align="right">0.978</td>
+<td align="right">0.987</td>
+</tr>
+<tr class="odd">
+<td align="left">NO</td>
+<td align="right">0.495</td>
+<td align="right">0.350</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">0.976</td>
+<td align="right">1.009</td>
+<td align="right">0.985</td>
+</tr>
+<tr class="even">
+<td align="left">Chi</td>
+<td align="right">0.479</td>
+<td align="right">0.341</td>
+<td align="right">0.74</td>
+<td align="right">0.26</td>
+<td align="right">1.006</td>
+<td align="right">0.975</td>
+<td align="right">0.981</td>
+</tr>
+<tr class="odd">
+<td align="left">Atl</td>
+<td align="right">0.501</td>
+<td align="right">0.341</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">0.967</td>
+<td align="right">1.009</td>
+<td align="right">0.976</td>
+</tr>
+<tr class="even">
+<td align="left">Bkn</td>
+<td align="right">0.506</td>
+<td align="right">0.338</td>
+<td align="right">0.63</td>
+<td align="right">0.37</td>
+<td align="right">0.938</td>
+<td align="right">1.013</td>
+<td align="right">0.950</td>
+</tr>
+</tbody>
+</table>
+<p>In the defensive shot stats we see the shooting percentage of 2 pointers and 3 pointers allowed, also the percentage of shots taken that are 2 pointers and 3 pointers taken by opponents, the points per shots that a the opponent makes. The shot-proportion, which is the amount of shots taken by the opponent for each shot taken by the team, and the adjusted points per shot, which is the points per shot adjusted by the shot-proportion.</p>
+<table>
+<caption>Defensive team stats</caption>
+<thead>
+<tr class="header">
+<th align="left">DefTeam</th>
+<th align="right">ShotPct2Pts</th>
+<th align="right">ShotPct3Pts</th>
+<th align="right">PercentageOf2s</th>
+<th align="right">PercentageOf3s</th>
+<th align="right">PropShot</th>
+<th align="right">PPS</th>
+<th align="right">AdjPPS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mem</td>
+<td align="right">0.492</td>
+<td align="right">0.354</td>
+<td align="right">0.64</td>
+<td align="right">0.36</td>
+<td align="right">0.943</td>
+<td align="right">1.012</td>
+<td align="right">0.954</td>
+</tr>
+<tr class="even">
+<td align="left">Det</td>
+<td align="right">0.502</td>
+<td align="right">0.365</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">0.938</td>
+<td align="right">1.032</td>
+<td align="right">0.968</td>
+</tr>
+<tr class="odd">
+<td align="left">Mia</td>
+<td align="right">0.490</td>
+<td align="right">0.343</td>
+<td align="right">0.73</td>
+<td align="right">0.27</td>
+<td align="right">0.982</td>
+<td align="right">0.993</td>
+<td align="right">0.975</td>
+</tr>
+<tr class="even">
+<td align="left">Sas</td>
+<td align="right">0.483</td>
+<td align="right">0.344</td>
+<td align="right">0.72</td>
+<td align="right">0.28</td>
+<td align="right">0.997</td>
+<td align="right">0.984</td>
+<td align="right">0.981</td>
+</tr>
+<tr class="odd">
+<td align="left">GSW</td>
+<td align="right">0.485</td>
+<td align="right">0.324</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">1.024</td>
+<td align="right">0.971</td>
+<td align="right">0.994</td>
+</tr>
+<tr class="even">
+<td align="left">Tor</td>
+<td align="right">0.495</td>
+<td align="right">0.355</td>
+<td align="right">0.67</td>
+<td align="right">0.33</td>
+<td align="right">0.982</td>
+<td align="right">1.015</td>
+<td align="right">0.997</td>
+</tr>
+<tr class="odd">
+<td align="left">Okc</td>
+<td align="right">0.502</td>
+<td align="right">0.356</td>
+<td align="right">0.71</td>
+<td align="right">0.29</td>
+<td align="right">0.976</td>
+<td align="right">1.023</td>
+<td align="right">0.998</td>
+</tr>
+<tr class="even">
+<td align="left">Chi</td>
+<td align="right">0.503</td>
+<td align="right">0.344</td>
+<td align="right">0.70</td>
+<td align="right">0.30</td>
+<td align="right">0.994</td>
+<td align="right">1.014</td>
+<td align="right">1.008</td>
+</tr>
+<tr class="odd">
+<td align="left">NY</td>
+<td align="right">0.506</td>
+<td align="right">0.349</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">0.987</td>
+<td align="right">1.023</td>
+<td align="right">1.010</td>
+</tr>
+<tr class="even">
+<td align="left">Dal</td>
+<td align="right">0.510</td>
+<td align="right">0.379</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">0.959</td>
+<td align="right">1.057</td>
+<td align="right">1.014</td>
+</tr>
+<tr class="odd">
+<td align="left">Bos</td>
+<td align="right">0.505</td>
+<td align="right">0.333</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">1.008</td>
+<td align="right">1.007</td>
+<td align="right">1.015</td>
+</tr>
+<tr class="even">
+<td align="left">Por</td>
+<td align="right">0.489</td>
+<td align="right">0.370</td>
+<td align="right">0.71</td>
+<td align="right">0.29</td>
+<td align="right">1.001</td>
+<td align="right">1.016</td>
+<td align="right">1.017</td>
+</tr>
+<tr class="odd">
+<td align="left">Uta</td>
+<td align="right">0.476</td>
+<td align="right">0.358</td>
+<td align="right">0.72</td>
+<td align="right">0.28</td>
+<td align="right">1.032</td>
+<td align="right">0.986</td>
+<td align="right">1.018</td>
+</tr>
+<tr class="even">
+<td align="left">Ind</td>
+<td align="right">0.501</td>
+<td align="right">0.354</td>
+<td align="right">0.66</td>
+<td align="right">0.34</td>
+<td align="right">0.997</td>
+<td align="right">1.022</td>
+<td align="right">1.019</td>
+</tr>
+<tr class="odd">
+<td align="left">Pho</td>
+<td align="right">0.504</td>
+<td align="right">0.382</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">0.974</td>
+<td align="right">1.051</td>
+<td align="right">1.024</td>
+</tr>
+<tr class="even">
+<td align="left">Was</td>
+<td align="right">0.514</td>
+<td align="right">0.364</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">0.978</td>
+<td align="right">1.048</td>
+<td align="right">1.025</td>
+</tr>
+<tr class="odd">
+<td align="left">Phi</td>
+<td align="right">0.503</td>
+<td align="right">0.357</td>
+<td align="right">0.71</td>
+<td align="right">0.29</td>
+<td align="right">1.007</td>
+<td align="right">1.025</td>
+<td align="right">1.032</td>
+</tr>
+<tr class="even">
+<td align="left">Lac</td>
+<td align="right">0.497</td>
+<td align="right">0.347</td>
+<td align="right">0.69</td>
+<td align="right">0.31</td>
+<td align="right">1.027</td>
+<td align="right">1.009</td>
+<td align="right">1.036</td>
+</tr>
+<tr class="odd">
+<td align="left">ORL</td>
+<td align="right">0.510</td>
+<td align="right">0.368</td>
+<td align="right">0.70</td>
+<td align="right">0.30</td>
+<td align="right">0.991</td>
+<td align="right">1.045</td>
+<td align="right">1.036</td>
+</tr>
+<tr class="even">
+<td align="left">NO</td>
+<td align="right">0.499</td>
+<td align="right">0.353</td>
+<td align="right">0.67</td>
+<td align="right">0.33</td>
+<td align="right">1.024</td>
+<td align="right">1.018</td>
+<td align="right">1.042</td>
+</tr>
+<tr class="odd">
+<td align="left">Atl</td>
+<td align="right">0.491</td>
+<td align="right">0.357</td>
+<td align="right">0.65</td>
+<td align="right">0.35</td>
+<td align="right">1.034</td>
+<td align="right">1.013</td>
+<td align="right">1.047</td>
+</tr>
+<tr class="even">
+<td align="left">Mil</td>
+<td align="right">0.512</td>
+<td align="right">0.353</td>
+<td align="right">0.66</td>
+<td align="right">0.34</td>
+<td align="right">1.013</td>
+<td align="right">1.036</td>
+<td align="right">1.049</td>
+</tr>
+<tr class="odd">
+<td align="left">Min</td>
+<td align="right">0.528</td>
+<td align="right">0.367</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">0.986</td>
+<td align="right">1.070</td>
+<td align="right">1.055</td>
+</tr>
+<tr class="even">
+<td align="left">Cha</td>
+<td align="right">0.506</td>
+<td align="right">0.369</td>
+<td align="right">0.64</td>
+<td align="right">0.36</td>
+<td align="right">1.013</td>
+<td align="right">1.046</td>
+<td align="right">1.060</td>
+</tr>
+<tr class="odd">
+<td align="left">Hou</td>
+<td align="right">0.522</td>
+<td align="right">0.344</td>
+<td align="right">0.67</td>
+<td align="right">0.33</td>
+<td align="right">1.019</td>
+<td align="right">1.040</td>
+<td align="right">1.060</td>
+</tr>
+<tr class="even">
+<td align="left">Lal</td>
+<td align="right">0.536</td>
+<td align="right">0.369</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">0.984</td>
+<td align="right">1.083</td>
+<td align="right">1.066</td>
+</tr>
+<tr class="odd">
+<td align="left">Sac</td>
+<td align="right">0.517</td>
+<td align="right">0.364</td>
+<td align="right">0.64</td>
+<td align="right">0.36</td>
+<td align="right">1.014</td>
+<td align="right">1.055</td>
+<td align="right">1.070</td>
+</tr>
+<tr class="even">
+<td align="left">Den</td>
+<td align="right">0.519</td>
+<td align="right">0.375</td>
+<td align="right">0.70</td>
+<td align="right">0.30</td>
+<td align="right">1.008</td>
+<td align="right">1.064</td>
+<td align="right">1.073</td>
+</tr>
+<tr class="odd">
+<td align="left">Cle</td>
+<td align="right">0.504</td>
+<td align="right">0.362</td>
+<td align="right">0.68</td>
+<td align="right">0.32</td>
+<td align="right">1.047</td>
+<td align="right">1.033</td>
+<td align="right">1.082</td>
+</tr>
+<tr class="even">
+<td align="left">Bkn</td>
+<td align="right">0.498</td>
+<td align="right">0.365</td>
+<td align="right">0.70</td>
+<td align="right">0.30</td>
+<td align="right">1.066</td>
+<td align="right">1.026</td>
+<td align="right">1.094</td>
+</tr>
+</tbody>
+</table>
+<div id="spread-prediction" class="section level3">
+<h3><span class="header-section-number">0.3.1</span> Spread prediction</h3>
+<p>The function Get_Apps will analyse the pairwise spatial components of the teams involved in the game proposed and using our algorithm based on Boosted Regression Trees will predict the spread of the game, as an example we will show the predicted spread for Charlotte playing against Boston at Home and on the road:</p>
+<pre class="r"><code>data(&quot;season2017&quot;)
+Get_Apps(HomeTeam = &quot;Cha&quot;, VisitorTeam = &quot;Bos&quot;, Seasondata = season2017)
+#&gt;       defAPPS     offAPPS    spread
+#&gt; 1 -0.01542924 -0.01071023 -2.756698</code></pre>
+<pre class="r"><code>Get_Apps(HomeTeam = &quot;Bos&quot;, VisitorTeam = &quot;Cha&quot;, Seasondata = season2017)
+#&gt;       defAPPS     offAPPS    spread
+#&gt; 1 -0.01071023 -0.01542924 -3.873041</code></pre>
+</div>
+<div id="spatial-rating" class="section level3">
+<h3><span class="header-section-number">0.3.2</span> Spatial Rating</h3>
+<p>Finally our function SpatialRating will calculate the offensive, defensive and net rating for every team, with the shots to the date during the season.</p>
+<pre class="r"><code>knitr::kable(SpatialRating(Seasondata = season2017))
+#&gt; [1] &quot;1 of 30&quot;
+#&gt; [1] &quot;2 of 30&quot;
+#&gt; [1] &quot;3 of 30&quot;
+#&gt; [1] &quot;4 of 30&quot;
+#&gt; [1] &quot;5 of 30&quot;
+#&gt; [1] &quot;6 of 30&quot;
+#&gt; [1] &quot;7 of 30&quot;
+#&gt; [1] &quot;8 of 30&quot;
+#&gt; [1] &quot;9 of 30&quot;
+#&gt; [1] &quot;10 of 30&quot;
+#&gt; [1] &quot;11 of 30&quot;
+#&gt; [1] &quot;12 of 30&quot;
+#&gt; [1] &quot;13 of 30&quot;
+#&gt; [1] &quot;14 of 30&quot;
+#&gt; [1] &quot;15 of 30&quot;
+#&gt; [1] &quot;16 of 30&quot;
+#&gt; [1] &quot;17 of 30&quot;
+#&gt; [1] &quot;18 of 30&quot;
+#&gt; [1] &quot;19 of 30&quot;
+#&gt; [1] &quot;20 of 30&quot;
+#&gt; [1] &quot;21 of 30&quot;
+#&gt; [1] &quot;22 of 30&quot;
+#&gt; [1] &quot;23 of 30&quot;
+#&gt; [1] &quot;24 of 30&quot;
+#&gt; [1] &quot;25 of 30&quot;
+#&gt; [1] &quot;26 of 30&quot;
+#&gt; [1] &quot;27 of 30&quot;
+#&gt; [1] &quot;28 of 30&quot;
+#&gt; [1] &quot;29 of 30&quot;
+#&gt; [1] &quot;30 of 30&quot;</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Team</th>
+<th align="right">offrating</th>
+<th align="right">defrating</th>
+<th align="right">netrating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">GSW</td>
+<td align="right">2.0804500</td>
+<td align="right">0.1311212</td>
+<td align="right">2.2115712</td>
+</tr>
+<tr class="even">
+<td align="left">Sas</td>
+<td align="right">1.0411266</td>
+<td align="right">0.4974256</td>
+<td align="right">1.5385522</td>
+</tr>
+<tr class="odd">
+<td align="left">Cle</td>
+<td align="right">0.8750972</td>
+<td align="right">0.2814502</td>
+<td align="right">1.1565473</td>
+</tr>
+<tr class="even">
+<td align="left">Lac</td>
+<td align="right">1.3076772</td>
+<td align="right">-0.4298288</td>
+<td align="right">0.8778484</td>
+</tr>
+<tr class="odd">
+<td align="left">Uta</td>
+<td align="right">0.5161118</td>
+<td align="right">0.2089360</td>
+<td align="right">0.7250478</td>
+</tr>
+<tr class="even">
+<td align="left">Ind</td>
+<td align="right">1.0928556</td>
+<td align="right">-0.5536918</td>
+<td align="right">0.5391638</td>
+</tr>
+<tr class="odd">
+<td align="left">Bos</td>
+<td align="right">0.1931442</td>
+<td align="right">0.2843018</td>
+<td align="right">0.4774460</td>
+</tr>
+<tr class="even">
+<td align="left">Tor</td>
+<td align="right">0.7550321</td>
+<td align="right">-0.4149312</td>
+<td align="right">0.3401009</td>
+</tr>
+<tr class="odd">
+<td align="left">Mil</td>
+<td align="right">-0.3964982</td>
+<td align="right">0.7120559</td>
+<td align="right">0.3155577</td>
+</tr>
+<tr class="even">
+<td align="left">Hou</td>
+<td align="right">0.3524664</td>
+<td align="right">-0.2435310</td>
+<td align="right">0.1089353</td>
+</tr>
+<tr class="odd">
+<td align="left">Was</td>
+<td align="right">0.7996583</td>
+<td align="right">-0.6907535</td>
+<td align="right">0.1089048</td>
+</tr>
+<tr class="even">
+<td align="left">Mia</td>
+<td align="right">-0.1239239</td>
+<td align="right">0.1469538</td>
+<td align="right">0.0230299</td>
+</tr>
+<tr class="odd">
+<td align="left">NO</td>
+<td align="right">0.0153150</td>
+<td align="right">-0.0090666</td>
+<td align="right">0.0062484</td>
+</tr>
+<tr class="even">
+<td align="left">Por</td>
+<td align="right">0.2247713</td>
+<td align="right">-0.2222034</td>
+<td align="right">0.0025679</td>
+</tr>
+<tr class="odd">
+<td align="left">Cha</td>
+<td align="right">-0.6365997</td>
+<td align="right">0.6209799</td>
+<td align="right">-0.0156199</td>
+</tr>
+<tr class="even">
+<td align="left">NY</td>
+<td align="right">-0.6174972</td>
+<td align="right">0.4773152</td>
+<td align="right">-0.1401820</td>
+</tr>
+<tr class="odd">
+<td align="left">Chi</td>
+<td align="right">-0.5373037</td>
+<td align="right">0.3270072</td>
+<td align="right">-0.2102965</td>
+</tr>
+<tr class="even">
+<td align="left">Det</td>
+<td align="right">-0.6730574</td>
+<td align="right">0.4561400</td>
+<td align="right">-0.2169175</td>
+</tr>
+<tr class="odd">
+<td align="left">Mem</td>
+<td align="right">-0.8655895</td>
+<td align="right">0.5555504</td>
+<td align="right">-0.3100391</td>
+</tr>
+<tr class="even">
+<td align="left">Atl</td>
+<td align="right">-1.0172761</td>
+<td align="right">0.7002164</td>
+<td align="right">-0.3170597</td>
+</tr>
+<tr class="odd">
+<td align="left">Dal</td>
+<td align="right">0.1517351</td>
+<td align="right">-0.5159049</td>
+<td align="right">-0.3641698</td>
+</tr>
+<tr class="even">
+<td align="left">Min</td>
+<td align="right">-0.0682905</td>
+<td align="right">-0.4298877</td>
+<td align="right">-0.4981782</td>
+</tr>
+<tr class="odd">
+<td align="left">Den</td>
+<td align="right">0.5794232</td>
+<td align="right">-1.0916424</td>
+<td align="right">-0.5122192</td>
+</tr>
+<tr class="even">
+<td align="left">Sac</td>
+<td align="right">0.7734692</td>
+<td align="right">-1.3332825</td>
+<td align="right">-0.5598133</td>
+</tr>
+<tr class="odd">
+<td align="left">Phi</td>
+<td align="right">-1.0136361</td>
+<td align="right">0.3857651</td>
+<td align="right">-0.6278710</td>
+</tr>
+<tr class="even">
+<td align="left">ORL</td>
+<td align="right">-0.6135064</td>
+<td align="right">-0.0742889</td>
+<td align="right">-0.6877953</td>
+</tr>
+<tr class="odd">
+<td align="left">Bkn</td>
+<td align="right">-0.5912777</td>
+<td align="right">-0.1283174</td>
+<td align="right">-0.7195951</td>
+</tr>
+<tr class="even">
+<td align="left">Pho</td>
+<td align="right">-0.8310942</td>
+<td align="right">-0.0601033</td>
+<td align="right">-0.8911975</td>
+</tr>
+<tr class="odd">
+<td align="left">Okc</td>
+<td align="right">-1.3245088</td>
+<td align="right">0.2854894</td>
+<td align="right">-1.0390194</td>
+</tr>
+<tr class="even">
+<td align="left">Lal</td>
+<td align="right">-0.5582777</td>
+<td align="right">-0.7632706</td>
+<td align="right">-1.3215482</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="upcoming-functions" class="section level2">
+<h2><span class="header-section-number">0.4</span> Upcoming functions</h2>
+<p>We are working on improved spread predictions and a function for trade analysis. There are options for Season projections as seen <a href="https://derek-corcoran-barrios.github.io/Projection.html">here</a>.</p>
+</div>
+
+<p>Copyright &copy; 2017 Cienciaustral, Inc. <img src="https://ia601308.us.archive.org/13/items/LogoCuadrado3/logo%20cuadrado%203.jpg" height="20" width="20"/> All rights reserved.</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
